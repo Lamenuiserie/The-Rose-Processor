@@ -1,0 +1,26 @@
+Initialize engine version: 4.6.0f3 (30840d631a27)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 9.0c [nvd3dum.dll 9.18.13.4052]
+    Renderer: NVIDIA GeForce GTX 460M         
+    Vendor:   NVIDIA
+    VRAM:     1483 MB (via DXGI)
+    Caps:     Shader=30 DepthRT=1 NativeDepth=1 NativeShadow=1 DF16=0 INTZ=1 RAWZ=0 NULL=1 RESZ=0 SlowINTZ=0
+Begin MonoManager ReloadAssembly
+Platform assembly: D:\WIP\LD31\Builds\Windows\game_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading D:\WIP\LD31\Builds\Windows\game_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: D:\WIP\LD31\Builds\Windows\game_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading D:\WIP\LD31\Builds\Windows\game_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: D:\WIP\LD31\Builds\Windows\game_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading D:\WIP\LD31\Builds\Windows\game_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+- Completed reload, in  0.082 seconds
+desktop: 1920x1080 60Hz; virtual: 1920x1080 at 0,0
+<RI> Initializing input.
+<RI> Input initialized.
+Platform assembly: D:\WIP\LD31\Builds\Windows\game_Data\Managed\System.Core.dll (this message is harmless)
+UnloadTime: 0.391542 ms
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
+
+Unloading 2 unused Assets to reduce memory usage. Loaded Objects now: 540.
+Total: 0.629649 ms (FindLiveObjects: 0.020013 ms CreateObjectMapping: 0.007697 ms MarkObjects: 0.086211 ms  DeleteObjects: 0.003592 ms)
+
