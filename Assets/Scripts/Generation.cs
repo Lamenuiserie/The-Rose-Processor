@@ -11,62 +11,105 @@ public class Generation : MonoBehaviour
 	/// The minimum time between spawn.
 	/// </summary>
 	public float minTimeBetweenSpawn;
-	/// <summary>
-	/// The max number of objects to spawn.
-	/// </summary>
-	public int maxNumberToSpawn;
-	public GameObject object1Prefab;
-	public GameObject object2Prefab;
+	public GameObject level1;
+	public GameObject level2;
+	public GameObject level3;
 
+	/// <summary>
+	/// The player.
+	/// </summary>
+	private Player player;
 	/// <summary>
 	/// The timer spawn.
 	/// </summary>
-	private float timerSpawn;
-	/// <summary>
-	/// The starting distance at which the objects spawn.
-	/// </summary>
-	private float startingDistance;
-	private float gapBetweenDistance;
+	private float timerSpawnLevel1;
+	private float timerSpawnLevel2;
+	private float timerSpawnLevel3;
+
 
 	// Use this for initialization
 	void Start ()
 	{
-		
+		player = GameObject.Find("Player").GetComponent<Player>();
 	}
 	
 	// Update is called once per frame
 	void Update ()
 	{
-		timerSpawn += Time.deltaTime;
+		// Update timer
+		timerSpawnLevel1 += Time.deltaTime;
+		timerSpawnLevel2 += Time.deltaTime;
+		timerSpawnLevel3 += Time.deltaTime;
 
-		if (timerSpawn > minTimeBetweenSpawn && timerSpawn < maxTimeBetweenSpawn)
+		// Spawn level 1 objects
+		if (timerSpawnLevel1 > minTimeBetweenSpawn && timerSpawnLevel1 < maxTimeBetweenSpawn)
 		{
 			if (Random.value > 0.5f)
 			{
-				spawnObjects();
-				timerSpawn = 0;
+				spawnObjects(0);
+				timerSpawnLevel1 = 0;
 			}
 		}
-		else if (timerSpawn >= maxTimeBetweenSpawn)
+		else if (timerSpawnLevel1 >= maxTimeBetweenSpawn)
 		{
-			spawnObjects();
-			timerSpawn = 0;
+			spawnObjects(0);
+			timerSpawnLevel1 = 0;
+		}
+
+		// Spawn level 2 objects
+		if (player.level >= 1)
+		{
+			if (player.level == 1 && timerSpawnLevel2 > minTimeBetweenSpawn && timerSpawnLevel2 < maxTimeBetweenSpawn)
+			{
+				if (Random.value > 0.5f)
+				{
+					spawnObjects(1);
+					timerSpawnLevel2 = 0;
+				}
+			}
+			else if (timerSpawnLevel2 >= maxTimeBetweenSpawn)
+			{
+				spawnObjects(1);
+				timerSpawnLevel2 = 0;
+			}
+		}
+
+		// Spawn level 3 objects
+		if (player.level >= 2)
+		{
+			if (timerSpawnLevel3 > minTimeBetweenSpawn && timerSpawnLevel3 < maxTimeBetweenSpawn)
+			{
+				if (Random.value > 0.5f)
+				{
+					spawnObjects(2);
+					timerSpawnLevel3 = 0;
+				}
+			}
+			else if (timerSpawnLevel3 >= maxTimeBetweenSpawn)
+			{
+				spawnObjects(2);
+				timerSpawnLevel3 = 0;
+			}
 		}
 	}
 
 	/// <summary>
 	/// Spawn objects.
 	/// </summary>
-	private void spawnObjects ()
+	private void spawnObjects (int levelIndex)
 	{
-		for (int i = 0; i < maxNumberToSpawn; i++)
+		GameObject level = level1;
+		if (levelIndex == 1)
 		{
-			if (Random.value > 0.5f)
-			{
-				// TODO spawn along circle
-				GameObject obj = Instantiate(object1Prefab) as GameObject;
-				obj.transform.parent = transform;
-			}
+			level = level2;
 		}
+		else if (levelIndex == 2)
+		{
+			level = level3;
+		}
+
+		Transform obj = Instantiate(level.transform.GetChild((int)(Random.Range(0, 1.1f) * 10))) as Transform;
+		obj.parent = transform;
+		// TODO color fade
 	}
 }

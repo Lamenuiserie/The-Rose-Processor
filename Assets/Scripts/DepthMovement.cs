@@ -8,8 +8,18 @@ public class DepthMovement : MonoBehaviour
 	/// </summary>
 	[Range(0,1)]
 	public float speed;
-
-
+	/// <summary>
+	/// The index of the object.
+	/// </summary>
+	public int index;
+	/// <summary>
+	/// The level.
+	/// </summary>
+	public int level;
+	/// <summary>
+	/// The player.
+	/// </summary>
+	private Player player;
 	/// <summary>
 	/// Depth at which the object is.
 	/// Range from zero (invisible) to 1 (visible at scale 1).
@@ -34,6 +44,8 @@ public class DepthMovement : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
+		player = GameObject.Find("Player").GetComponent<Player>();
+
 		// Components
 		thisTransform = transform;
 		thisRenderer = renderer as SpriteRenderer;
@@ -41,22 +53,30 @@ public class DepthMovement : MonoBehaviour
 		// Init
 		depth = 0;
 		fadeToDeathTimeElapsed = 0.0f;
-		thisTransform.rotation = Quaternion.FromToRotation(Vector3.down, thisTransform.position);
+		//thisTransform.rotation = Quaternion.FromToRotation(Vector3.down, thisTransform.position);
 	}
+
+	/// <summary>
+	/// Whether the triangle was created already.
+	/// </summary>
+	private bool created = false;
 
 	// Update is called once per frame
 	void Update ()
 	{
-		// TODO rotate
-		// TODO oriented toward center of the screen
-
 		// Update the depth at which the object is
-		if (depth <= 1)
+		if (depth <= 0.5f)
 		{
 			updateDepth();
 		}
 		else
 		{
+			// If no triangle create one
+			if (!created && !player.activatedTriangles[level, index] && fadeToDeathTimeElapsed == 0)
+			{
+				player.createTriangle(level, index);
+				created = true;
+			}
 			fadeToDeath();
 		}
 	}

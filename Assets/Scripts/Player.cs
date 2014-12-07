@@ -12,7 +12,7 @@ public class Player : MonoBehaviour
 	/// <summary>
 	/// The level at which the player currently is.
 	/// </summary>
-	private int level;
+	public int level { get; private set; }
 	/// <summary>
 	/// The level selected by the player.
 	/// </summary>
@@ -20,7 +20,7 @@ public class Player : MonoBehaviour
 	/// <summary>
 	/// The levels that are completed.
 	/// </summary>
-	private bool[] levelCompleted;
+	public bool[] levelCompleted { get; private set; }
 	/// <summary>
 	/// The triangles per levels.
 	/// </summary>
@@ -28,7 +28,7 @@ public class Player : MonoBehaviour
 	/// <summary>
 	/// The first index from which triangles are activated.
 	/// </summary>
-	private bool[,] activatedTriangles;
+	public bool[,] activatedTriangles { get; private set; }
 
 	private int firstActivatedTriangleIndex;
 	private int lastActivatedTriangleIndex;
@@ -71,132 +71,131 @@ public class Player : MonoBehaviour
 	void Update ()
 	{
 		// Activation of the triangles through the mouse wheel
-		if (Mathf.Abs(lastActivatedTriangleIndex - firstActivatedTriangleIndex) > 1 || firstActivatedTriangleIndex == lastActivatedTriangleIndex)
+		if (!levelCompleted[levelSelected])
 		{
 			if (Input.GetKeyDown(KeyCode.UpArrow) || Input.mouseScrollDelta.y > 0)
 			{
-				int newLastIndex = lastActivatedTriangleIndex + 1;
-				if (newLastIndex >= thisTransform.GetChild(levelSelected).childCount)
+				Debug.Log(levelSelected);
+				bool[] newActivatedTriangles = new bool[thisTransform.GetChild(levelSelected).childCount];
+				for (int i = 0; i < thisTransform.GetChild(levelSelected).childCount; i++)
 				{
-					newLastIndex = 0;
+					int newIndex = i - 1;
+					if (newIndex < 0)
+					{
+						newIndex = thisTransform.GetChild(levelSelected).childCount - 1;
+					}
+					newActivatedTriangles[i] = activatedTriangles[levelSelected, newIndex];
 				}
-				triangles[levelSelected,newLastIndex].SetActive(true);
-				activatedTriangles[levelSelected,newLastIndex] = true;
-				lastActivatedTriangleIndex = newLastIndex;
-				
-				triangles[levelSelected,firstActivatedTriangleIndex].SetActive(false);
-				activatedTriangles[levelSelected,firstActivatedTriangleIndex] = false;
-				int newFirstIndex = firstActivatedTriangleIndex + 1;
-				if (newFirstIndex >= thisTransform.GetChild(levelSelected).childCount)
+
+				for (int i = 0; i < thisTransform.GetChild(levelSelected).childCount; i++)
 				{
-					newFirstIndex = 0;
+					activatedTriangles[levelSelected,i] = newActivatedTriangles[i];
+					triangles[levelSelected,i].SetActive(activatedTriangles[levelSelected,i]);
 				}
-				firstActivatedTriangleIndex = newFirstIndex;
 			}
 			else if (Input.GetKeyDown(KeyCode.DownArrow) || Input.mouseScrollDelta.y < 0)
 			{
-				int newFirstIndex = firstActivatedTriangleIndex - 1;
-				if (newFirstIndex < 0)
+				bool[] newActivatedTriangles = new bool[thisTransform.GetChild(levelSelected).childCount];
+				for (int i = thisTransform.GetChild(levelSelected).childCount - 1; i >= 0; i--)
 				{
-					newFirstIndex = thisTransform.GetChild(levelSelected).childCount - 1;
+					int newIndex = i + 1;
+					if (newIndex > thisTransform.GetChild(levelSelected).childCount - 1)
+					{
+						newIndex = 0;
+					}
+					newActivatedTriangles[i] = activatedTriangles[levelSelected, newIndex];
 				}
-				triangles[levelSelected,newFirstIndex].SetActive(true);
-				activatedTriangles[levelSelected,newFirstIndex] = true;
-				firstActivatedTriangleIndex = newFirstIndex;
-				
-				triangles[levelSelected,lastActivatedTriangleIndex].SetActive(false);
-				activatedTriangles[levelSelected,lastActivatedTriangleIndex] = false;
-				int newLastIndex = lastActivatedTriangleIndex - 1;
-				if (newLastIndex < 0)
+
+				for (int i = 0; i < thisTransform.GetChild(levelSelected).childCount; i++)
 				{
-					newLastIndex = thisTransform.GetChild(levelSelected).childCount - 1;
+					activatedTriangles[levelSelected,i] = newActivatedTriangles[i];
+					triangles[levelSelected,i].SetActive(activatedTriangles[levelSelected,i]);
 				}
-				lastActivatedTriangleIndex = newLastIndex;
 			}
 		}
 
-		// Adding a triangle at the level of the player
-		if (Input.GetKeyDown(KeyCode.Space) && !levelCompleted[level])
+		// Switch level
+		if (Input.GetKeyDown(KeyCode.Alpha1))
 		{
-			int newIndex = lastActivatedTriangleIndex + 1;
-			if (newIndex >= thisTransform.GetChild(level).childCount)
-			{
-				newIndex = 0;
-			}
-			triangles[level,newIndex].SetActive(true);
-			activatedTriangles[level,newIndex] = true;
-			lastActivatedTriangleIndex = newIndex;
+			levelSelected = 0;
+		}
+		if (level >= 1 && Input.GetKeyDown(KeyCode.Alpha2))
+		{
+			levelSelected = 1;
+		}
+		if (level >= 2 && Input.GetKeyDown(KeyCode.Alpha3))
+		{
+			levelSelected = 2;
+		}
 
-			if (lastActivatedTriangleIndex - firstActivatedTriangleIndex == -1)
-			{
-				levelCompleted[level] = true;
-				//TODO level++;
-			}
+		lightTriangles();
+
+		// TODO remove
+		if (Input.GetKeyDown(KeyCode.G))
+		{
+			level++;
+			levelSelected = level;
+			triangles[level,0].SetActive(true);
+			activatedTriangles[level,0] = true;
 		}
 	}
 
 	/// <summary>
-	/// Return the index of the first activated triangle.
+	/// Creates the triangle.
 	/// </summary>
-	/// <returns>The index of the first activated triangle.</returns>
-	private int getFirstActivatedTriangleIndex(int level)
+	/// <param name="index">Index at which to create the triangle.</param>
+	public void createTriangle (int currentLevel, int index)
 	{
-		for (int i = 0; i < thisTransform.GetChild(level).childCount; i++)
+		triangles[currentLevel,index].SetActive(true);
+		activatedTriangles[currentLevel,index] = true;
+
+		Debug.Log("kjsddkf");
+
+		//levelCompleted[currentLevel] = true;
+		for (int i = 0; i < thisTransform.GetChild(currentLevel).childCount; i++)
 		{
-			if (activatedTriangles[level, i])
+			if (!activatedTriangles[currentLevel, i])
 			{
-				return i;
+				//levelCompleted[currentLevel] = false;
 			}
 		}
-		return -1;
+		
+		if (levelCompleted[currentLevel])
+		{
+			level = currentLevel + 1;
+			triangles[level,0].SetActive(true);
+			activatedTriangles[level,0] = true;
+			levelSelected = level;
+		}
 	}
 
 	/// <summary>
-	/// Return the index of the last activated triangle.
+	/// Lights the triangles.
 	/// </summary>
-	/// <returns>The index of the last activated triangle.</returns>
-	private int getLastActivatedTriangleIndex(int level)
+	private void lightTriangles ()
 	{
-		bool found = false;
-		bool foundOne = false;
-		int i = 0;
-		while (!found)
+		// Better light currently selected level triangles
+		for (int i = 0; i < thisTransform.GetChild(levelSelected).childCount; i++)
 		{
-			if (foundOne)
+			if (activatedTriangles[levelSelected, i])
 			{
-				if (i >= thisTransform.GetChild(level).childCount)
-				{
-					return i - 1;
-				}
-				else if (!activatedTriangles[level,i])
-				{
-					return i - 1;
-				}
+				SpriteRenderer triangleRenderer = triangles[levelSelected, i].renderer as SpriteRenderer;
+				triangleRenderer.color = new Color(triangleRenderer.color.r, triangleRenderer.color.g, triangleRenderer.color.b, 0.8f);
 			}
-			else if (activatedTriangles[level,i])
-			{
-				foundOne = true;
-			}
-			i++;
 		}
-		return -1;
-
-
-
-		/*for (int i = 0; i < thisTransform.GetChild(level).childCount; i++)
+		for (int i = 0; i < maxLevel; i++)
 		{
-			if (activatedTriangles[level, i])
+			if (i != levelSelected)
 			{
-				if (i + 1 >= thisTransform.GetChild(level).childCount)
+				for (int j = 0; j < thisTransform.GetChild(i).childCount; j++)
 				{
-					return i;
-				}
-				else if (!activatedTriangles[level, i + 1])
-				{
-					return i;
+					if (activatedTriangles[i, j])
+					{
+						SpriteRenderer triangleRenderer = triangles[i, j].renderer as SpriteRenderer;
+						triangleRenderer.color = new Color(triangleRenderer.color.r, triangleRenderer.color.g, triangleRenderer.color.b, 0.57f);
+					}
 				}
 			}
 		}
-		return -1;*/
 	}
 }
