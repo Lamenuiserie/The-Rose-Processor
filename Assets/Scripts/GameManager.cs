@@ -19,6 +19,9 @@ public class GameManager : MonoBehaviour
 		// Init
 		paused = false;
 		wasLocked = false;
+
+		Screen.lockCursor = true;
+		Screen.showCursor = false;
 	}
 
 	// Update is called once per frame
@@ -29,7 +32,13 @@ public class GameManager : MonoBehaviour
 			Screen.lockCursor = false;
 			Screen.showCursor = true;
 		}
-		
+
+		if (Input.GetMouseButton(0))
+		{
+			Screen.lockCursor = true;
+			Screen.showCursor = false;
+		}
+
 		if (!Screen.lockCursor && wasLocked)
 		{
 			wasLocked = false;
@@ -38,11 +47,5 @@ public class GameManager : MonoBehaviour
 		{
 			wasLocked = true;
 		}
-	}
-
-	void OnMouseDown ()
-	{
-		Screen.lockCursor = true;
-		Screen.showCursor = false;
 	}
 }

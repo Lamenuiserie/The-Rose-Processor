@@ -7,20 +7,20 @@ Direct3D:
     VRAM:     1483 MB (via DXGI)
     Caps:     Shader=30 DepthRT=1 NativeDepth=1 NativeShadow=1 DF16=0 INTZ=1 RAWZ=0 NULL=1 RESZ=0 SlowINTZ=0
 Begin MonoManager ReloadAssembly
-Platform assembly: D:\WIP\Rose\Builds\Windows\TheRoseProcessor_Data\Managed\UnityEngine.dll (this message is harmless)
-Loading D:\WIP\Rose\Builds\Windows\TheRoseProcessor_Data\Managed\UnityEngine.dll into Unity Child Domain
-Platform assembly: D:\WIP\Rose\Builds\Windows\TheRoseProcessor_Data\Managed\Assembly-CSharp.dll (this message is harmless)
-Loading D:\WIP\Rose\Builds\Windows\TheRoseProcessor_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
-Platform assembly: D:\WIP\Rose\Builds\Windows\TheRoseProcessor_Data\Managed\UnityEngine.UI.dll (this message is harmless)
-Loading D:\WIP\Rose\Builds\Windows\TheRoseProcessor_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
-- Completed reload, in  0.084 seconds
+Platform assembly: D:\WIP\The-Rose-Processor\Builds\Windows\TheRoseProcessor_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading D:\WIP\The-Rose-Processor\Builds\Windows\TheRoseProcessor_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: D:\WIP\The-Rose-Processor\Builds\Windows\TheRoseProcessor_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading D:\WIP\The-Rose-Processor\Builds\Windows\TheRoseProcessor_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: D:\WIP\The-Rose-Processor\Builds\Windows\TheRoseProcessor_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading D:\WIP\The-Rose-Processor\Builds\Windows\TheRoseProcessor_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+- Completed reload, in  0.087 seconds
 desktop: 1920x1080 60Hz; virtual: 3600x1080 at 0,0
 <RI> Initializing input.
 <RI> Input initialized.
-Platform assembly: D:\WIP\Rose\Builds\Windows\TheRoseProcessor_Data\Managed\System.Core.dll (this message is harmless)
-UnloadTime: 0.432596 ms
+Platform assembly: D:\WIP\The-Rose-Processor\Builds\Windows\TheRoseProcessor_Data\Managed\System.Core.dll (this message is harmless)
+UnloadTime: 23.085670 ms
 Unloading 3 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
 
 Unloading 14 unused Assets to reduce memory usage. Loaded Objects now: 554.
-Total: 0.664546 ms (FindLiveObjects: 0.021039 ms CreateObjectMapping: 0.011802 ms MarkObjects: 0.106224 ms  DeleteObjects: 0.075434 ms)
+Total: 1.121774 ms (FindLiveObjects: 0.021039 ms CreateObjectMapping: 0.011289 ms MarkObjects: 0.540873 ms  DeleteObjects: 0.076461 ms)
 
