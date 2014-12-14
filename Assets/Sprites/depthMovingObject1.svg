@@ -9,13 +9,13 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="100"
-   height="250"
+   width="50"
+   height="125"
    id="svg4556"
    version="1.1"
    inkscape:version="0.48.5 r10040"
    sodipodi:docname="depthMovingObject1.svg"
-   inkscape:export-filename="D:\WIP\LD31\Assets\Sprites\depthMovingObject1.png"
+   inkscape:export-filename="D:\WIP\Rose\Assets\Sprites\depthMovingObject1.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
   <defs
@@ -27,9 +27,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="2.8"
-     inkscape:cx="26.051355"
-     inkscape:cy="70.990783"
+     inkscape:zoom="0.98994949"
+     inkscape:cx="118.38252"
+     inkscape:cy="158.16491"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -50,7 +50,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -58,10 +58,10 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(-206.42857,-530.50505)">
+     transform="translate(-206.42857,-655.50505)">
     <path
        style="fill:#daeaef;fill-opacity:1;stroke:none"
-       d="m 306.42857,780.50505 -50,-250 -50,250 z"
+       d="m 256.42857,780.50505 -25,-125 -25,125 z"
        id="path5135-1"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cccc" />

@@ -14,6 +14,7 @@ public class Generation : MonoBehaviour
 	public GameObject level1;
 	public GameObject level2;
 	public GameObject level3;
+	public GameObject level4;
 
 	/// <summary>
 	/// The player.
@@ -25,6 +26,7 @@ public class Generation : MonoBehaviour
 	private float timerSpawnLevel1;
 	private float timerSpawnLevel2;
 	private float timerSpawnLevel3;
+	private float timerSpawnLevel4;
 
 
 	// Use this for initialization
@@ -40,6 +42,7 @@ public class Generation : MonoBehaviour
 		timerSpawnLevel1 += Time.deltaTime;
 		timerSpawnLevel2 += Time.deltaTime;
 		timerSpawnLevel3 += Time.deltaTime;
+		timerSpawnLevel4 += Time.deltaTime;
 
 		// Spawn level 1 objects
 		if (timerSpawnLevel1 > minTimeBetweenSpawn && timerSpawnLevel1 < maxTimeBetweenSpawn)
@@ -59,7 +62,7 @@ public class Generation : MonoBehaviour
 		// Spawn level 2 objects
 		if (player.level >= 1)
 		{
-			if (player.level == 1 && timerSpawnLevel2 > minTimeBetweenSpawn && timerSpawnLevel2 < maxTimeBetweenSpawn)
+			if (timerSpawnLevel2 > minTimeBetweenSpawn && timerSpawnLevel2 < maxTimeBetweenSpawn)
 			{
 				if (Random.value > 0.5f)
 				{
@@ -91,6 +94,24 @@ public class Generation : MonoBehaviour
 				timerSpawnLevel3 = 0;
 			}
 		}
+
+		// Spawn level 4 objects
+		if (player.level >= 3)
+		{
+			if (timerSpawnLevel4 > minTimeBetweenSpawn && timerSpawnLevel4 < maxTimeBetweenSpawn)
+			{
+				if (Random.value > 0.5f)
+				{
+					spawnObjects(3);
+					timerSpawnLevel4 = 0;
+				}
+			}
+			else if (timerSpawnLevel4 >= maxTimeBetweenSpawn)
+			{
+				spawnObjects(3);
+				timerSpawnLevel4 = 0;
+			}
+		}
 	}
 
 	/// <summary>
@@ -107,9 +128,42 @@ public class Generation : MonoBehaviour
 		{
 			level = level3;
 		}
+		else if (levelIndex == 3)
+		{
+			level = level4;
+		}
 
-		Transform obj = Instantiate(level.transform.GetChild((int)(Random.Range(0, 1.1f) * 10))) as Transform;
+		int index = (int)(Random.Range(0, 1.1f) * 10);
+
+		while (player.triangles[levelIndex,index].GetComponent<Triangle>().aligned)
+		{
+			index = (int)(Random.Range(0, 1.1f) * 10);
+		}
+
+		Transform obj = Instantiate(level.transform.GetChild(index)) as Transform;
 		obj.parent = transform;
-		// TODO color fade
+	}
+
+	public void killObjects (int level)
+	{
+		for (int i = 0; i < transform.childCount; i++)
+		{
+			if (transform.GetChild(i).GetComponent<DepthMovement>().level == level)
+			{
+				Destroy(transform.GetChild(i).gameObject);
+			}
+		}
+	}
+
+	public void killObjectsAtIndex (int level, int index)
+	{
+
+		for (int i = 0; i < transform.childCount; i++)
+		{
+			if (transform.GetChild(i).GetComponent<DepthMovement>().level == level && transform.GetChild(i).GetComponent<DepthMovement>().index == index)
+			{
+				Destroy(transform.GetChild(i).gameObject);
+			}
+		}
 	}
 }

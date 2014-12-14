@@ -9,13 +9,13 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="100"
-   height="250.00002"
+   width="50"
+   height="125"
    id="svg2"
    version="1.1"
    inkscape:version="0.48.5 r10040"
    sodipodi:docname="triangle.svg"
-   inkscape:export-filename="D:\WIP\LD31\Assets\Sprites\triangle.png"
+   inkscape:export-filename="D:\WIP\Rose\Assets\Sprites\triangle.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
   <defs
@@ -27,9 +27,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="2.8"
-     inkscape:cx="24.463539"
-     inkscape:cy="115.71236"
+     inkscape:zoom="0.98994949"
+     inkscape:cx="122.48184"
+     inkscape:cy="147.78563"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -50,7 +50,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -58,10 +58,10 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(-51.35714,-798.50498)">
+     transform="translate(-51.35714,-923.505)">
     <path
        style="fill:#ff3d2e;fill-opacity:1;stroke:none"
-       d="m 51.35714,1048.505 100,0 -50,-250.00002 z"
+       d="m 51.35714,1048.505 50,0 -25,-125 z"
        id="path4518"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cccc" />

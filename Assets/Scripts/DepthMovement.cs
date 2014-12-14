@@ -65,16 +65,23 @@ public class DepthMovement : MonoBehaviour
 	void Update ()
 	{
 		// Update the depth at which the object is
-		if (depth <= 0.5f)
+		if (depth <= 1f)
 		{
 			updateDepth();
 		}
 		else
 		{
 			// If no triangle create one
-			if (!created && !player.activatedTriangles[level, index] && fadeToDeathTimeElapsed == 0)
+			if (!created && fadeToDeathTimeElapsed == 0)
 			{
-				player.createTriangle(level, index);
+				if (!player.activatedTriangles[level, index])
+				{
+					player.createTriangle(level, index);
+				}
+				else
+				{
+					player.removeTriangle(level, index);
+				}
 				created = true;
 			}
 			fadeToDeath();
