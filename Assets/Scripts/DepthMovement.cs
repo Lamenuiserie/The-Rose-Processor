@@ -4,22 +4,24 @@ using System.Collections;
 public class DepthMovement : MonoBehaviour
 {
 	/// <summary>
-	/// Speed at which it approaches.
+	/// Speed at which the petal to be approaches.
 	/// </summary>
 	[Range(0,1)]
 	public float speed;
 	/// <summary>
-	/// The index of the object.
+	/// The index of the petal to be.
 	/// </summary>
 	public int index;
 	/// <summary>
-	/// The level.
+	/// The bud at wich the petal to be is.
 	/// </summary>
-	public int level;
+	public int bud;
+
 	/// <summary>
 	/// The player.
 	/// </summary>
 	private Player player;
+
 	/// <summary>
 	/// Depth at which the object is.
 	/// Range from zero (invisible) to 1 (visible at scale 1).
@@ -53,13 +55,13 @@ public class DepthMovement : MonoBehaviour
 		// Init
 		depth = 0;
 		fadeToDeathTimeElapsed = 0.0f;
-		//thisTransform.rotation = Quaternion.FromToRotation(Vector3.down, thisTransform.position);
 	}
 
 	/// <summary>
-	/// Whether the triangle was created already.
+	/// Whether the petal was created already.
 	/// </summary>
 	private bool created = false;
+
 
 	// Update is called once per frame
 	void Update ()
@@ -71,16 +73,16 @@ public class DepthMovement : MonoBehaviour
 		}
 		else
 		{
-			// If no triangle create one
+			// If no petal present create one
 			if (!created && fadeToDeathTimeElapsed == 0)
 			{
-				if (!player.activatedTriangles[level, index])
+				if (!player.buds[bud].petals[index].alive)
 				{
-					player.createTriangle(level, index);
+					player.buds[bud].addPetal(index);
 				}
 				else
 				{
-					player.removeTriangle(level, index);
+					player.buds[bud].deletePetal(index);
 				}
 				created = true;
 			}

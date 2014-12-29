@@ -4,34 +4,25 @@ using System.Collections;
 public class Player : MonoBehaviour
 {
 	/// <summary>
-	/// The max level of the player.
+	/// The buds.
 	/// </summary>
-	public int maxLevel;
-
-	/// <summary>
-	/// The generation script.
-	/// </summary>
-	private Generation generationScript;
+	public Bud[] buds { get; private set; }
 	/// <summary>
 	/// The level at which the player currently is.
 	/// </summary>
 	public int level { get; private set; }
 	/// <summary>
-	/// The level selected by the player.
+	/// The current bud selected.
 	/// </summary>
-	public int levelSelected { get; private set; }
+	public int budSelected { get; private set; }
 	/// <summary>
-	/// The levels that are completed.
+	/// Whether the flower has been completed.
 	/// </summary>
-	public bool[] levelCompleted { get; private set; }
+	public bool flowerCompleted { get; private set; }
 	/// <summary>
-	/// The triangles per levels.
+	/// The generation script.
 	/// </summary>
-	public GameObject[,] triangles { get; private set; }
-	/// <summary>
-	/// The first index from which triangles are activated.
-	/// </summary>
-	public bool[,] activatedTriangles { get; private set; }
+	private Generation generationScript;
 
 
 	/// <summary>
@@ -43,6 +34,7 @@ public class Player : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
+		// Scripts
 		generationScript = GameObject.Find("DepthMovingObjects").GetComponent<Generation>();
 
 		// Components
@@ -50,325 +42,170 @@ public class Player : MonoBehaviour
 
 		// Init
 		level = 0;
-		levelSelected = 0;
-		levelCompleted = new bool[maxLevel];
-		activatedTriangles = new bool[maxLevel,thisTransform.GetChild(0).childCount];
-		triangles = new GameObject[maxLevel,thisTransform.GetChild(0).childCount];
-		for (int i = 0; i < maxLevel; i++)
+		budSelected = 0;
+		buds = new Bud[thisTransform.childCount];
+		for (int i = 0; i < thisTransform.childCount; i++)
 		{
-			for (int j = 0; j < thisTransform.GetChild(i).childCount; j++)
-			{
-				triangles[i,j] = thisTransform.GetChild(i).GetChild(j).gameObject;
-				triangles[i,j].SetActive(false);
-				activatedTriangles[i,j] = false;
-			}
+			buds[i] = thisTransform.GetChild(i).GetComponent<Bud>();
 		}
-		triangles[0,0].SetActive(true);
-		activatedTriangles[0,0] = true;
+		buds[0].petals[0].setAlive(true);
 	}
 	
 	// Update is called once per frame
 	void Update ()
 	{
-		int numberOfActiveTriangles = 0;
-		for (int i = 0; i < thisTransform.GetChild(levelSelected).childCount; i++)
+		// Find the number of active petals
+		int numberOfActivePetals = 0;
+		for (int i = 0; i < buds[budSelected].petals.Length; i++)
 		{
-			if (activatedTriangles[levelSelected,i])
+			if (buds[budSelected].petals[i].alive)
 			{
-				numberOfActiveTriangles++;
+				numberOfActivePetals++;
 			}
 		}
-
+		
 		// Activation of the triangles through the mouse wheel
-		if (numberOfActiveTriangles < thisTransform.GetChild(levelSelected).childCount)
+		if (numberOfActivePetals < buds[budSelected].petals.Length)
 		{
 			if (Input.GetKeyDown(KeyCode.UpArrow) || Input.mouseScrollDelta.y > 0)
 			{
-				bool[] newActivatedTriangles = new bool[thisTransform.GetChild(levelSelected).childCount];
-				for (int i = 0; i < thisTransform.GetChild(levelSelected).childCount; i++)
-				{
-					bool found = false;
-					int newIndex = i;
-					int currentIndex = i;
-					while (!found)
-					{
-						newIndex = currentIndex - 1;
-						if (newIndex < 0)
-						{
-							newIndex = thisTransform.GetChild(levelSelected).childCount - 1;
-						}
-						if (currentIndex < 0)
-						{
-							currentIndex = thisTransform.GetChild(levelSelected).childCount - 1;
-						}
-
-						if (!triangles[levelSelected,currentIndex].GetComponent<Triangle>().aligned)
-						{
-							if (!triangles[levelSelected,newIndex].GetComponent<Triangle>().aligned)
-							{
-								newActivatedTriangles[i] = activatedTriangles[levelSelected, newIndex];
-								found = true;
-							}
-						}
-						else
-						{
-							newActivatedTriangles[currentIndex] = true;
-						}
-						currentIndex--;
-					}
-				}
-
-				bool atLeastOneActive = false;
-				for (int i = 0; i < thisTransform.GetChild(levelSelected).childCount; i++)
-				{
-					activatedTriangles[levelSelected,i] = newActivatedTriangles[i];
-					triangles[levelSelected,i].SetActive(activatedTriangles[levelSelected,i]);
-
-					if (activatedTriangles[levelSelected,i])
-					{
-						atLeastOneActive = true;
-					}
-				}
-
-				if (atLeastOneActive)
-				{
-					SoundManager.instance.playMoveSound();
-				}
+				buds[budSelected].movePetalsAntiClockwise();
+				end ();
 			}
 			else if (Input.GetKeyDown(KeyCode.DownArrow) || Input.mouseScrollDelta.y < 0)
 			{
-				bool[] newActivatedTriangles = new bool[thisTransform.GetChild(levelSelected).childCount];
-				for (int i = thisTransform.GetChild(levelSelected).childCount - 1; i >= 0; i--)
-				{
-					bool found = false;
-					int newIndex = i;
-					int currentIndex = i;
-					while (!found)
-					{
-						newIndex = currentIndex + 1;
-						if (newIndex > thisTransform.GetChild(levelSelected).childCount - 1)
-						{
-							newIndex = 0;
-						}
+				buds[budSelected].movePetalsClockwise();
+				end ();
+			}
+		}
 
-						if (currentIndex > thisTransform.GetChild(levelSelected).childCount - 1)
-						{
-							currentIndex = 0;
-						}
-
-						if (!triangles[levelSelected,currentIndex].GetComponent<Triangle>().aligned)
-						{
-							if (!triangles[levelSelected,newIndex].GetComponent<Triangle>().aligned)
-							{
-								newActivatedTriangles[i] = activatedTriangles[levelSelected, newIndex];
-								found = true;
-							}
-						}
-						else
-						{
-							newActivatedTriangles[currentIndex] = true;
-						}
-						currentIndex++;
-					}
-				}
-
-				bool atLeastOneActive = false;
-				for (int i = 0; i < thisTransform.GetChild(levelSelected).childCount; i++)
-				{
-					activatedTriangles[levelSelected,i] = newActivatedTriangles[i];
-					triangles[levelSelected,i].SetActive(activatedTriangles[levelSelected,i]);
-
-					if (activatedTriangles[levelSelected,i])
-					{
-						atLeastOneActive = true;
-					}
-				}
-
-				if (atLeastOneActive)
-				{
-					SoundManager.instance.playMoveSound();
-				}
+		// TODO remove
+		if (Input.GetKeyDown(KeyCode.R))
+		{
+			for (int i = 0; i < buds.Length; i++)
+			{
+				generationScript.killObjects(i);
 			}
 		}
 
 		// Switch level
-		if (Input.GetKeyDown(KeyCode.Alpha1) && levelSelected != 0)
+		if (Input.GetKeyDown(KeyCode.Alpha1) && budSelected != 0)
 		{
-			levelSelected = 0;
+			budSelected = 0;
 			SoundManager.instance.playSwitchSound();
 		}
-		if (level >= 1 && Input.GetKeyDown(KeyCode.Alpha2) && levelSelected != 1)
+		if (level >= 1 && Input.GetKeyDown(KeyCode.Alpha2) && budSelected != 1)
 		{
-			levelSelected = 1;
+			budSelected = 1;
 			SoundManager.instance.playSwitchSound();
 		}
-		if (level >= 2 && Input.GetKeyDown(KeyCode.Alpha3) && levelSelected != 2)
+		if (level >= 2 && Input.GetKeyDown(KeyCode.Alpha3) && budSelected != 2)
 		{
-			levelSelected = 2;
+			budSelected = 2;
 			SoundManager.instance.playSwitchSound();
 		}
-		if (level >= 3 && Input.GetKeyDown(KeyCode.Alpha4) && levelSelected != 3)
+		if (level >= 3 && Input.GetKeyDown(KeyCode.Alpha4) && budSelected != 3)
 		{
-			levelSelected = 3;
+			budSelected = 3;
 			SoundManager.instance.playSwitchSound();
 		}
 
-		lightTriangles();
+		// Light the bud selected petals
+		for (int i = 0; i < buds.Length; i++)
+		{
+			if (i == budSelected)
+			{
+				buds[i].lightPetals();
+			}
+			else
+			{
+				buds[i].unlightPetals();
+			}
+		}
+	}
+
+	public void checkProgress (int budIndex)
+	{
+		if (level < budIndex + 1)
+		{
+			level = budIndex + 1;
+			buds[level].petals[0].setAlive(true);
+		}
+	}
+
+	public void end ()
+	{
+		// TODO make buds blink and then full highlight
+		bool fullyCompeted = false;
+		for (int i = 0; i < buds.Length; i++)
+		{
+			if (buds[i].fullyCompleted)
+			{
+				fullyCompeted = true;
+			}
+		}
+		if (fullyCompeted)
+		{
+			flowerCompleted = true;
+		}
+	}
+
+	public bool isLastBranch ()
+	{
+		for (int i = 0; i < buds.Length; i++)
+		{
+			for (int j = 0; j < buds[i].petals.Length; j++)
+			{
+
+			}
+		}
+		return true;
+	}
+
+	public void cancelBuds (int budIndex)
+	{
+		for (int i = budIndex; i <= level; i++)
+		{
+			generationScript.killObjects(i);
+			
+			for (int j = 0; j < buds[i].petals.Length; j++)
+			{
+				if (!buds[i].petals[j].aligned)
+				{
+					buds[i].petals[j].setAlive(false);
+				}
+			}
+		}
+		
+		level = budIndex - 1;
+		if (budSelected > budIndex)
+		{
+			budSelected = level;
+		}
 	}
 
 	/// <summary>
-	/// Creates the triangle.
+	/// Checks the alignment of petals.
 	/// </summary>
-	/// <param name="currentLevel">Current level.</param>
-	/// <param name="index">Index at which to create the triangle.</param>
-	public void createTriangle (int currentLevel, int index)
+	/// <param name="index">Index of the petals to check.</param>
+	public void checkAlignment (int index)
 	{
-		SoundManager.instance.playCreationSound();
-
-		triangles[currentLevel,index].SetActive(true);
-		activatedTriangles[currentLevel,index] = true;
-
 		bool aligned = true;
-		for (int i = 0; i < maxLevel; i++)
+		for (int i = 0; i < buds.Length; i++)
 		{
-			if (!activatedTriangles[i,index])
+			if (!buds[i].petals[index].alive)
 			{
 				aligned = false;
 			}
 		}
-
-		/*if (aligned)
+		
+		if (aligned)
 		{
-			// FIXME It seems like it does not work on index 0
-			Debug.Log("ALIGNED");
-			for (int i = 0; i < maxLevel; i++)
+			for (int i = 0; i < buds.Length; i++)
 			{
 				generationScript.killObjectsAtIndex(i,index);
-				triangles[i,index].GetComponent<Triangle>().aligned = true;
+				buds[i].petals[index].aligned = true;
 			}
-		}*/
-
-		int numberOfActiveTriangles = 0;
-		for (int i = 0; i < thisTransform.GetChild(currentLevel).childCount; i++)
-		{
-			if (activatedTriangles[currentLevel, i])
-			{
-				numberOfActiveTriangles++;
-			}
-		}
-
-		if (numberOfActiveTriangles > thisTransform.GetChild(currentLevel).childCount / 2)
-		{
-			if (!levelCompleted[currentLevel])
-			{
-				SoundManager.instance.playNewLevelSound();
-			}
-
-			levelCompleted[currentLevel] = true;
-
-			if (level < currentLevel + 1)
-			{
-				level = currentLevel + 1;
-				if (level == maxLevel)
-				{
-					// TODO end game
-					level--;
-				}
-				else
-				{
-					triangles[level,0].SetActive(true);
-					activatedTriangles[level,0] = true;
-				}
-			}
-		}
-	}
-
-	/// <summary>
-	/// Removes the triangle.
-	/// </summary>
-	/// <param name="currentLevel">Current level.</param>
-	/// <param name="index">Index.</param>
-	public void removeTriangle (int currentLevel, int index)
-	{
-		SoundManager.instance.playRemovingSound();
-
-		triangles[currentLevel,index].SetActive(false);
-		activatedTriangles[currentLevel,index] = false;
-
-		int numberOfActiveTriangles = 0;
-		for (int i = 0; i < thisTransform.GetChild(currentLevel).childCount; i++)
-		{
-			if (activatedTriangles[currentLevel, i])
-			{
-				numberOfActiveTriangles++;
-			}
-		}
-		
-		if (levelCompleted[currentLevel] && numberOfActiveTriangles <= thisTransform.GetChild(currentLevel).childCount / 2)
-		{
-			levelCompleted[currentLevel] = false;
-
-			SoundManager.instance.playLostLevelSound();
-
-			for (int i = currentLevel + 1; i <= level; i++)
-			{
-				generationScript.killObjects(i);
-
-				for (int j = 0; j < thisTransform.GetChild(i).childCount; j++)
-				{
-					if (!triangles[i,j].GetComponent<Triangle>().aligned)
-					{
-						triangles[i,j].SetActive(false);
-						activatedTriangles[i,j] = false;
-					}
-				}
-			}
-
-			level = currentLevel;
-			if (levelSelected > currentLevel)
-			{
-				levelSelected = level;
-			}
-		}
-	}
-
-	/// <summary>
-	/// Lights the triangles.
-	/// </summary>
-	private void lightTriangles ()
-	{
-		// Better light currently selected level triangles
-		for (int i = 0; i < thisTransform.GetChild(levelSelected).childCount; i++)
-		{
-			if (activatedTriangles[levelSelected, i])
-			{
-				SpriteRenderer triangleRenderer = triangles[levelSelected, i].renderer as SpriteRenderer;
-				triangleRenderer.color = new Color(triangleRenderer.color.r, triangleRenderer.color.g, triangleRenderer.color.b, 0.85f);
-			}
-		}
-		for (int i = 0; i < maxLevel; i++)
-		{
-			if (i != levelSelected)
-			{
-				for (int j = 0; j < thisTransform.GetChild(i).childCount; j++)
-				{
-					if (activatedTriangles[i,j])
-					{
-						SpriteRenderer triangleRenderer = triangles[i,j].renderer as SpriteRenderer;
-						triangleRenderer.color = new Color(triangleRenderer.color.r, triangleRenderer.color.g, triangleRenderer.color.b, 0.46f);
-					}
-				}
-			}
-
-			// TODO remove
-			/*for (int j = 0; j < thisTransform.GetChild(i).childCount; j++)
-			{
-				if (triangles[i,j].GetComponent<Triangle>().aligned)
-				{
-					//SpriteRenderer triangleRenderer = triangles[i,j].renderer as SpriteRenderer;
-					//triangleRenderer.color = new Color(0, 0, 1, 0.85f);
-				}
-			}*/
 		}
 	}
 }
