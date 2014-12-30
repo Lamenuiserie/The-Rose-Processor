@@ -1,4 +1,4 @@
-Initialize engine version: 4.6.0f3 (30840d631a27)
+Initialize engine version: 4.6.1f1 (d1db7a1b5196)
 GfxDevice: creating device client; threaded=1
 Direct3D:
     Version:  Direct3D 9.0c [nvd3dum.dll 9.18.13.4052]
@@ -13,14 +13,14 @@ Platform assembly: D:\WIP\The-Rose-Processor\Builds\Windows\TheRoseProcessor_Dat
 Loading D:\WIP\The-Rose-Processor\Builds\Windows\TheRoseProcessor_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
 Platform assembly: D:\WIP\The-Rose-Processor\Builds\Windows\TheRoseProcessor_Data\Managed\UnityEngine.UI.dll (this message is harmless)
 Loading D:\WIP\The-Rose-Processor\Builds\Windows\TheRoseProcessor_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
-- Completed reload, in  0.087 seconds
-desktop: 1920x1080 60Hz; virtual: 3600x1080 at 0,0
+- Completed reload, in  0.081 seconds
+desktop: 1920x1080 60Hz; virtual: 1920x1080 at 0,0
 <RI> Initializing input.
 <RI> Input initialized.
 Platform assembly: D:\WIP\The-Rose-Processor\Builds\Windows\TheRoseProcessor_Data\Managed\System.Core.dll (this message is harmless)
-UnloadTime: 23.085670 ms
+UnloadTime: 0.556782 ms
 Unloading 3 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
 
-Unloading 14 unused Assets to reduce memory usage. Loaded Objects now: 554.
-Total: 1.121774 ms (FindLiveObjects: 0.021039 ms CreateObjectMapping: 0.011289 ms MarkObjects: 0.540873 ms  DeleteObjects: 0.076461 ms)
+Unloading 14 unused Assets to reduce memory usage. Loaded Objects now: 557.
+Total: 0.681480 ms (FindLiveObjects: 0.021039 ms CreateObjectMapping: 0.011289 ms MarkObjects: 0.096474 ms  DeleteObjects: 0.071842 ms)
 
