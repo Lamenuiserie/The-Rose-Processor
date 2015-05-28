@@ -39,7 +39,7 @@ public class SoundManager : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
-		thisAudio = audio;
+		thisAudio = GetComponent<AudioSource>();
 	}
 	
 	// Update is called once per frame

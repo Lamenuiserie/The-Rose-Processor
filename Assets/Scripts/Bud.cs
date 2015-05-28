@@ -249,7 +249,7 @@ public class Bud : MonoBehaviour
 		{
 			if (petals[i].alive)
 			{
-				SpriteRenderer petalRenderer = petals[i].renderer as SpriteRenderer;
+				SpriteRenderer petalRenderer = petals[i].GetComponent<Renderer>() as SpriteRenderer;
 				petalRenderer.color = new Color(petalRenderer.color.r, petalRenderer.color.g, petalRenderer.color.b, 0.85f);
 			}
 		}
@@ -264,7 +264,7 @@ public class Bud : MonoBehaviour
 		{
 			if (petals[j].alive)
 			{
-				SpriteRenderer petalRenderer = petals[j].renderer as SpriteRenderer;
+				SpriteRenderer petalRenderer = petals[j].GetComponent<Renderer>() as SpriteRenderer;
 				petalRenderer.color = new Color(petalRenderer.color.r, petalRenderer.color.g, petalRenderer.color.b, 0.46f);
 			}
 		}
