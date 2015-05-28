@@ -27,7 +27,7 @@ public class Petal : MonoBehaviour
 	void Start ()
 	{
 		// Components
-		thisRenderer = renderer as SpriteRenderer;
+		thisRenderer = GetComponent<Renderer>() as SpriteRenderer;
 
 		// Init
 		aligned = false;

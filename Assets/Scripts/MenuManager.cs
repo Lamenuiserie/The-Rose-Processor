@@ -10,7 +10,7 @@ public class MenuManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetMouseButtonDown(0) || Input.anyKeyDown)
+		if (Input.GetMouseButtonDown(0) || Input.anyKeyDown || Input.touchCount > 0)
 		{
 			Application.LoadLevel(Application.loadedLevel + 1);
 		}

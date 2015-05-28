@@ -50,7 +50,7 @@ public class DepthMovement : MonoBehaviour
 
 		// Components
 		thisTransform = transform;
-		thisRenderer = renderer as SpriteRenderer;
+		thisRenderer = GetComponent<Renderer>() as SpriteRenderer;
 
 		// Init
 		depth = 0;
