@@ -69,12 +69,12 @@ public class Player : MonoBehaviour
 		// Activation of the triangles through the mouse wheel
 		if (numberOfActivePetals < buds[budSelected].petals.Length)
 		{
-			if (Input.GetKeyDown(KeyCode.UpArrow) || Input.mouseScrollDelta.y > 0 || (Input.touchCount > 0 && Input.GetTouch(0).deltaPosition.y > 0))
+			if (Input.GetKeyDown(KeyCode.UpArrow) || Input.mouseScrollDelta.y > 0 || (Input.touchCount > 0 && Input.GetTouch(0).deltaPosition.x > 0))
 			{
 				buds[budSelected].movePetalsAntiClockwise();
 				end ();
 			}
-			else if (Input.GetKeyDown(KeyCode.DownArrow) || Input.mouseScrollDelta.y < 0 || (Input.touchCount > 0 && Input.GetTouch(0).deltaPosition.y < 0))
+			else if (Input.GetKeyDown(KeyCode.DownArrow) || Input.mouseScrollDelta.y < 0 || (Input.touchCount > 0 && Input.GetTouch(0).deltaPosition.x < 0))
 			{
 				buds[budSelected].movePetalsClockwise();
 				end ();
