@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
 		wasLocked = false;
 
 		Screen.lockCursor = true;
-		Screen.showCursor = false;
+		Cursor.visible = false;
 	}
 
 	// Update is called once per frame
@@ -30,13 +30,13 @@ public class GameManager : MonoBehaviour
 		if (Input.GetKeyDown(KeyCode.Escape))
 		{
 			Screen.lockCursor = false;
-			Screen.showCursor = true;
+			Cursor.visible = true;
 		}
 
 		if (Input.GetMouseButton(0))
 		{
 			Screen.lockCursor = true;
-			Screen.showCursor = false;
+			Cursor.visible = false;
 		}
 
 		if (!Screen.lockCursor && wasLocked)
